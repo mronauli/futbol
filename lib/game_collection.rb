@@ -13,4 +13,19 @@ class GameCollection
 
     csv.map { |row| Game.new(row) }
   end
+
+  def games_by_season
+    season_games = @games.reduce({}) do |hash,game|
+      if hash[game.season]
+        hash[game.season] << game
+      else
+        hash[game.season] = [game]
+      end
+      hash
+    end
+    season_games.each do |key, value|
+      season_games[key] = value.length
+    end
+    season_games
+  end
 end

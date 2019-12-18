@@ -21,4 +21,8 @@ class GameCollectionTest < Minitest::Test
     assert_equal 2, @game.away_goals
     assert_equal 3, @game.home_goals
   end
+
+  def test_games_by_season
+    assert_equal ({"20122013"=>806, "20162017"=>1317, "20142015"=>1319, "20152016"=>1321, "20132014"=>1323, "20172018"=>1355}), @game_collection.games_by_season
+  end
 end
