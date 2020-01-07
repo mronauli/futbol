@@ -1,8 +1,12 @@
 require_relative 'team'
 require_relative 'csv_loadable'
+require_relative 'helpers'
+
+
 
 class TeamCollection
   include CsvLoadable
+  include Helpers
 
   attr_reader :teams_array
 
@@ -19,6 +23,17 @@ class TeamCollection
   end
 
   def team_name_by_id(team_id)
-    @teams_array.find {|team| team.team_id.to_i == team_id}.team_name
+    find_team(team_id).team_name
+  end
+
+  def team_info(team_id)
+    team = find_team(team_id)
+    {
+      "team_id" => team.team_id,
+      "franchise_id" => team.franchise_id,
+      "team_name" => team.team_name,
+      "abbreviation" => team.abbreviation,
+      "link" => team.link
+    }
   end
 end
