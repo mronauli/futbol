@@ -27,6 +27,10 @@ class GameTeamsCollectionTest < Minitest::Test
     assert_equal 12, @game_teams_collection.games_by_team_id(16).length
   end
 
+  def test_it_can_obtain_uniq_team_ids
+    assert_equal [20, 24, 16, 14, 3, 5, 28, 26, 19], @game_teams_collection.unique_team_ids
+  end
+
   def test_it_can_store_game_teams_by_id
     var = @game_teams_collection.game_teams_hash.first
     name = var[0]

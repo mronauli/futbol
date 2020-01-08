@@ -38,9 +38,7 @@ class GameTeamsCollection
   def home_games_only
     home_only = {}
     @game_teams_by_id.each do |team_id, games|
-      home_only[team_id] = games.find_all do |game|
-        game.hoa == "home"
-      end
+      home_only[team_id] = games.find_all {|game| game.hoa == "home"}
     end
     home_only
   end
