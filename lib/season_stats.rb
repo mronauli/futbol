@@ -50,6 +50,32 @@ class SeasonStats
     (wins.to_f / games).round(2)
   end
 
+  def team_shot_percentage(season, team_id)
+    make_season_game_array(season)
+    shots = @season_game_teams_array.reduce(0) do |acc, game_team|
+      if game_team.team_id == team_id
+        acc += game_team.shots
+      end
+      acc
+    end
+
+    goals = @season_game_teams_array.reduce(0) do |acc, game_team|
+      if game_team.team_id == team_id
+        acc += game_team.goals
+      end
+      acc
+    end
+    (goals.to_f / shots).round(4)
+  end
+
+  def make_array_of_teams(season)
+    make_season_game_array(season)
+    @season_game_teams_array.reduce([]) do |array, game_team|
+      array << game_team.team_id
+      array
+    end.uniq
+  end
+
   def make_array_of_coaches(season)
     make_season_game_array(season)
     @season_game_teams_array.reduce([]) do |array, game_team|
@@ -65,11 +91,26 @@ class SeasonStats
     end
   end
 
+  def make_team_shot_percent_hash(season)
+    make_array_of_teams(season).reduce({}) do |hash, team_id|
+      hash[team_id] = team_shot_percentage(season, team_id)
+      hash
+    end
+  end
+
   def winningest(season)
     make_coach_win_percent_hash(season).sort_by {|k, v| v}.last[0]
   end
 
   def losingest(season)
     make_coach_win_percent_hash(season).sort_by {|k, v| v}.first[0]
+  end
+
+  def most_accurate(season)
+    make_team_shot_percent_hash(season).sort_by {|k, v| v}.last[0]
+  end
+
+  def least_accurate(season)
+    make_team_shot_percent_hash(season).sort_by {|k, v| v}.first[0]
   end
 end

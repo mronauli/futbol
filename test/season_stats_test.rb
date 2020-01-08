@@ -53,4 +53,26 @@ class SeasonStatsTest < Minitest::Test
   def test_it_can_find_losingest_coach
     assert_equal "Ken Hitchcock", @season_stats.losingest("20132014")
   end
+
+  def test_it_can_find_shot_percentage_for_a_team_and_season
+    assert_equal 0.3636, @season_stats.team_shot_percentage("20132014", 16)
+  end
+
+  def test_it_can_make_array_of_teams
+    assert_equal [16, 19], @season_stats.make_array_of_teams("20132014")
+  end
+
+  def test_it_can_make_hash_of_teams_and_their_shot_percentages
+    answer = {16=>0.3636, 19=>0.1923}
+
+    assert_equal answer, @season_stats.make_team_shot_percent_hash("20132014")
+  end
+
+  def test_it_can_find_most_accurate_team
+    assert_equal 16, @season_stats.most_accurate("20132014")
+  end
+
+  def test_it_can_find_least_accurate_team
+    assert_equal 19, @season_stats.least_accurate("20132014")
+  end
 end
