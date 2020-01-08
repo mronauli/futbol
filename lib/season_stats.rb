@@ -3,7 +3,7 @@ require_relative 'createable'
 class SeasonStats
   include Createable
 
-  attr_reader :game_collection, :game_teams_collection
+  attr_reader :game_collection, :game_teams_collection, :season_game_teams_array
   def initialize(game_collection, game_teams_collection)
     @game_collection = game_collection
     @game_teams_collection = game_teams_collection
@@ -37,6 +37,39 @@ class SeasonStats
     end
   end
 
+  def coach_win_percent(season, coach)
+    make_season_game_array(season)
+    wins = @season_game_teams_array.find_all do |game_team|
+      game_team.head_coach == coach && game_team.result == "WIN"
+    end.length
 
+    games = @season_game_teams_array.find_all do |game_team|
+      game_team.head_coach == coach
+    end.length
 
+    (wins.to_f / games).round(2)
+  end
+
+  def make_array_of_coaches(season)
+    make_season_game_array(season)
+    @season_game_teams_array.reduce([]) do |array, game_team|
+      array << game_team.head_coach
+      array
+    end.uniq
+  end
+
+  def make_coach_win_percent_hash(season)
+    make_array_of_coaches(season).reduce({}) do |hash, coach|
+      hash[coach] = coach_win_percent(season, coach)
+      hash
+    end
+  end
+
+  def winningest(season)
+    make_coach_win_percent_hash(season).sort_by {|k, v| v}.last[0]
+  end
+
+  def losingest(season)
+    make_coach_win_percent_hash(season).sort_by {|k, v| v}.first[0]
+  end
 end
