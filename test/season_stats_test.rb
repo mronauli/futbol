@@ -75,4 +75,18 @@ class SeasonStatsTest < Minitest::Test
   def test_it_can_find_least_accurate_team
     assert_equal 19, @season_stats.least_accurate("20132014")
   end
+
+  def test_it_can_make_hash_of_teams_and_their_tackles
+    answer = {16=>143, 19=>248}
+
+    assert_equal answer, @season_stats.make_team_tackles_hash("20132014")
+  end
+
+  def test_it_can_find_most_tackles
+    assert_equal 19, @season_stats.most_tackles("20132014")
+  end
+
+  def test_it_can_find_most_least_tackles
+    assert_equal 16, @season_stats.least_tackles("20132014")
+  end
 end

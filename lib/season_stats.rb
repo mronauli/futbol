@@ -68,6 +68,17 @@ class SeasonStats
     (goals.to_f / shots).round(4)
   end
 
+  def team_tackles(season, team_id)
+    make_season_game_array(season)
+    tackles = @season_game_teams_array.reduce(0) do |acc, game_team|
+      if game_team.team_id == team_id
+        acc += game_team.tackles
+      end
+      acc
+    end
+    tackles
+  end
+
   def make_array_of_teams(season)
     make_season_game_array(season)
     @season_game_teams_array.reduce([]) do |array, game_team|
@@ -98,6 +109,13 @@ class SeasonStats
     end
   end
 
+  def make_team_tackles_hash(season)
+    make_array_of_teams(season).reduce({}) do |hash, team_id|
+      hash[team_id] = team_tackles(season, team_id)
+      hash
+    end
+  end
+
   def winningest(season)
     make_coach_win_percent_hash(season).sort_by {|k, v| v}.last[0]
   end
@@ -112,5 +130,13 @@ class SeasonStats
 
   def least_accurate(season)
     make_team_shot_percent_hash(season).sort_by {|k, v| v}.first[0]
+  end
+
+  def most_tackles(season)
+    make_team_tackles_hash(season).sort_by {|k, v| v}.last[0]
+  end
+
+  def least_tackles(season)
+    make_team_tackles_hash(season).sort_by {|k, v| v}.first[0]
   end
 end
