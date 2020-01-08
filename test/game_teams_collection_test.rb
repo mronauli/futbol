@@ -23,6 +23,10 @@ class GameTeamsCollectionTest < Minitest::Test
     assert_equal "LOSS", @game_teams.result
   end
 
+  def test_it_can_create_array_by_team_id
+    assert_equal 12, @game_teams_collection.games_by_team_id(16).length
+  end
+
   def test_it_can_store_game_teams_by_id
     var = @game_teams_collection.game_teams_hash.first
     name = var[0]
