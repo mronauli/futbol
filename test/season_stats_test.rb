@@ -28,6 +28,6 @@ class SeasonStatsTest < Minitest::Test
   end
 
   def test_it_can_make_season_game_teams_array
-    assert_equal [], @game_collection.make_season_game_array("20132014")
+    assert_equal 12, @season_stats.make_season_game_array("20132014").length
   end
 end
