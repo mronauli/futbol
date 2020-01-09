@@ -1,3 +1,5 @@
+require_relative 'game_collection'
+require_relative 'game_teams_collection'
 require_relative 'createable'
 
 class SeasonStats
@@ -67,6 +69,11 @@ class SeasonStats
     end
     (goals.to_f / shots).round(4)
   end
+
+  def game_score_differentials(team_id, result)
+    games = @game_teams_collection.game_ids_by_result(team_id, result)
+    games.map do |game_id|
+      @game_collection.games.find{|game| game.game_id == game_id}.difference_between_score
 
   def team_tackles(season, team_id)
     make_season_game_array(season)
@@ -139,4 +146,13 @@ class SeasonStats
   def least_tackles(season)
     make_team_tackles_hash(season).sort_by {|k, v| v}.first[0]
   end
+
+  def biggest_team_blowout(team_id)
+    game_score_differentials(team_id, "WIN").max
+  end
+
+  def worst_loss(team_id)
+    game_score_differentials(team_id, "LOSS").max
+  end
+
 end

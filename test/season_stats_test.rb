@@ -89,4 +89,20 @@ class SeasonStatsTest < Minitest::Test
   def test_it_can_find_most_least_tackles
     assert_equal 16, @season_stats.least_tackles("20132014")
   end
+
+  def test_can_get_game_score_differentials
+    assert_equal [1, 1, 1, 2], @season_stats.game_score_differentials(20, "LOSS")
+  end
+
+  def test_can_get_biggest_team_blowout
+    assert_equal 2, @season_stats.biggest_team_blowout(24)
+  end
+
+  def test_can_get_worst_team_loss
+    assert_equal 2, @season_stats.worst_loss(20)
+  end
+
+  # def test_it_can_make_season_game_teams_array
+  #   assert_equal [], @game_collection.make_season_game_array("20132014")
+  # end
 end

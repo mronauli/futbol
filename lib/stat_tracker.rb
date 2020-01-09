@@ -6,7 +6,7 @@ require_relative 'team_collection'
 require_relative 'season_stats'
 
 class StatTracker
-  attr_reader :game_path, :game_teams_path
+  attr_reader :game_path, :game_teams_path, :teams_path
 
   def self.from_csv(file_paths)
     game_path = file_paths[:games]
@@ -126,15 +126,15 @@ class StatTracker
   end
 
   def average_win_percentage(team_id)
-    @game_teams.average_win_percentage(team_id.to_s).round(2)
+    @game_teams.average_win_percentage(team_id.to_s)
   end
 
-  def biggest_bust(season)
-    @games.find_biggest_bust(season)
+  def biggest_team_blowout(team_id)
+    @season_stats.biggest_team_blowout(team_id.to_i)
   end
 
-  def biggest_surprise(season)
-    @games.find_biggest_surprise(season)
+  def worst_loss(team_id)
+    @season_stats.worst_loss(team_id.to_i)
   end
 
   def winningest_coach(season)
@@ -143,5 +143,17 @@ class StatTracker
 
   def worst_coach(season)
     @season_stats.losingest(season)
+  end
+
+  def team_info(team_id)
+    @team_collection.team_info(team_id.to_i)
+  end
+
+  def biggest_bust(season)
+    @team_collection.team_name_by_id(@games.find_biggest_bust(season))
+  end
+
+  def biggest_surprise(season)
+    @team_collection.team_name_by_id(@games.find_biggest_surprise(season))
   end
 end
