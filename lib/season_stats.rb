@@ -74,6 +74,8 @@ class SeasonStats
     games = @game_teams_collection.game_ids_by_result(team_id, result)
     games.map do |game_id|
       @game_collection.games.find{|game| game.game_id == game_id}.difference_between_score
+    end
+  end 
 
   def team_tackles(season, team_id)
     make_season_game_array(season)
