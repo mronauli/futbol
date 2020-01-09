@@ -101,8 +101,4 @@ class SeasonStatsTest < Minitest::Test
   def test_can_get_worst_team_loss
     assert_equal 2, @season_stats.worst_loss(20)
   end
-
-  # def test_it_can_make_season_game_teams_array
-  #   assert_equal [], @game_collection.make_season_game_array("20132014")
-  # end
 end
