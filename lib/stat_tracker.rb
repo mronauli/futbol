@@ -145,6 +145,22 @@ class StatTracker
     @season_stats.losingest(season)
   end
 
+  def most_accurate_team(season)
+    @season_stats.most_accurate(season)
+  end
+
+  def least_accurate_team(season)
+    @season_stats.least_accurate(season)
+  end
+
+  def most_tackles(season)
+    @season_stats.most_tackles(season)
+  end
+
+  def least_tackles(season)
+    @season_stats.least_tackles(season)
+  end
+
   def team_info(team_id)
     @team_collection.team_info(team_id.to_i)
   end
