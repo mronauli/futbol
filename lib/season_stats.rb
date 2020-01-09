@@ -5,10 +5,11 @@ require_relative 'createable'
 class SeasonStats
   include Createable
 
-  attr_reader :game_collection, :game_teams_collection, :season_game_teams_array
+  attr_reader :game_collection, :game_teams_collection, :season_game_teams_array, :season_game_hash
   def initialize(game_collection, game_teams_collection)
     @game_collection = game_collection
     @game_teams_collection = game_teams_collection
+    @season_game_hash = @game_collection.game_hash_from_array_by_attribute(@game_collection.games, :season)
     @season_game_teams_array = nil
   end
 
@@ -32,8 +33,7 @@ class SeasonStats
   end
 
   def make_season_game_array(season)
-    season_game_array = @game_collection.game_hash_from_array_by_attribute(@game_collection.games, :season)[season]
-    @season_game_teams_array = season_game_array.reduce([]) do |acc, game|
+  @season_game_teams_array = @season_game_hash[season].reduce([]) do |acc, game|
       @game_teams_collection.game_teams_array.each {|game_team| acc << game_team if game_team.game_id == game.game_id}
       acc
     end
@@ -75,7 +75,7 @@ class SeasonStats
     games.map do |game_id|
       @game_collection.games.find{|game| game.game_id == game_id}.difference_between_score
     end
-  end 
+  end
 
   def team_tackles(season, team_id)
     make_season_game_array(season)
